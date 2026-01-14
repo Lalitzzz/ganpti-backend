@@ -58,7 +58,21 @@ const PORT = process.env.PORT || 8080;
 // MIDDLEWARE SETUP
 // ======================
 app.use(express.json()); // Parse JSON request bodies
-app.use(cors()); // Enable CORS for all routes
+// app.use(cors()); // Enable CORS for all routes
+
+// Enable CORS for specific origins
+app.use(cors({
+  origin: [
+    'http://localhost:3000',                     // Local development
+    'https://ganpatilightdecoration.vercel.app', // ✅ Aapka Vercel frontend
+    'https://ganpti-backend.onrender.com'        // Backend itself
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+}));
+
+
 
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
